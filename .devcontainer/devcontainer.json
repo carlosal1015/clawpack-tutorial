@@ -1,0 +1,32 @@
+{
+    "name": "Clawpack",
+    "image": "ghcr.io/cm032/images/python-clawpack:latest",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "ms-toolsai.jupyter",
+                "wesbos.theme-cobalt2",
+                "Google.gemini-cli-vscode-ide-companion"
+            ]
+        }
+    },
+    "containerEnv": {
+        "GEMINI_API_KEY": "${localEnv:GEMINI_API_KEY}"
+    },
+    "forwardPorts": [
+        8888
+    ],
+    "portsAttributes": {
+        "8888": {
+            "label": "JupyterLab",
+            "onAutoForward": "openBrowser",
+            "protocol": "http"
+        }
+    },
+    "postCreateCommand": {
+        "gemini-key": "mkdir -p ~/.gemini && ([ -n \"$GEMINI_API_KEY\" ] && echo \"GEMINI_API_KEY=$GEMINI_API_KEY\" > ~/.gemini/.env && echo '✅ GEMINI_API_KEY saved' || echo '⚠️  GEMINI_API_KEY not set')",
+        "jupyter-config": "jupyter lab --generate-config -y && sed -i -e \"s/# c.ServerApp.ip = 'localhost'/c.ServerApp.ip = '0.0.0.0'/\" -e \"s/# c.ServerApp.port = 0/c.ServerApp.port = 8888/\" -e \"s/# c.ServerApp.open_browser = False/c.ServerApp.open_browser = False/\" -e \"s/# c.ServerApp.allow_origin = ''/c.ServerApp.allow_origin = '*'/\" -e \"s/# c.ServerApp.token = '<DEPRECATED>'/c.ServerApp.token = ''/\" -e \"s/# c.ServerApp.password = ''/c.ServerApp.password = ''/\" -e \"s/# c.IdentityProvider.token = ''/c.IdentityProvider.token = ''/\" ~/.jupyter/jupyter_lab_config.py && echo '✅ jupyter_lab_config.py configured via sed'"
+    }
+}
