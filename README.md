@@ -2,4 +2,4 @@
 
 ## Getting started
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/CM032/clawpack-tutorial)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/carlosal1015/clawpack-tutorial)
